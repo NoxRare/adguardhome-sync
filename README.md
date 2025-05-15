@@ -181,52 +181,6 @@ services:
     restart: unless-stopped
 ```
 
-# Configure the sync API server, disabled if api port is 0
-api:
-  # Port, default 8080
-  port: 8080
-  # if username and password are defined, basic auth is applied to the sync API
-  username: username
-  password: password
-  # enable api dark mode
-  darkMode: true
-
-  # enable metrics on path '/metrics' (api port must be != 0)
-  # metrics:
-  #   enabled: true
-  #   scrapeInterval: 30s 
-  #   queryLogLimit: 10000
-
-  # enable tls for the api server
-  # tls:
-  #   # the directory of the provided tls certs
-  #   certDir: /path/to/certs
-  #   # the name of the cert file (default: tls.crt)
-  #   certName: foo.crt
-  #   # the name of the key file (default: tls.key)
-  #   keyName: bar.key
-
-# Custom headers for requests (optional)
-customHeaders:
-  CF-Access-Client-Id: <CLIENT_ID>
-  CF-Access-Client-Secret: <CLIENT_SECRET>
-
-# Configure sync features; by default all features are enabled.
-features:
-  generalSettings: true
-  queryLogConfig: true
-  statsConfig: true
-  clientSettings: true
-  services: true
-  filters: true
-  dhcp:
-    serverConfig: true
-    staticLeases: true
-  dns:
-    serverConfig: true
-    accessLists: true
-    rewrites: true
-
 ## Config via environment variables
 
 For Replicas replace `#` with the index number for the replica. E.g: `REPLICA#_URL` -> `REPLICA1_URL`
@@ -283,7 +237,7 @@ For Replicas replace `#` with the index number for the replica. E.g: `REPLICA#_U
 
 ### Unraid
 
-⚠️ Disclaimer: Tere exists an unraid tepmlate for this application. This template is not managed by this project.
+⚠️ Disclaimer: There exists an unraid template for this application. This template is not managed by this project.
 Also, as unraid is not known to me, I can not give any support on unraind templates.
 
 Note when running the Docker container in Unraid please remove unneeded env variables if don't needed.
@@ -350,7 +304,6 @@ api:
   #   certName: foo.crt
   #   # the name of the key file (default: tls.key)
   #   keyName: bar.key
-
 # Custom headers for requests (optional)
 customHeaders:
   CF-Access-Client-Id: <CLIENT_ID>
