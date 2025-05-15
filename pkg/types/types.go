@@ -32,6 +32,8 @@ type Config struct {
 	ContinueOnError bool              `json:"continueOnError,omitempty" yaml:"continueOnError,omitempty"                     documentation:"Continue sync on errors"                            env:"CONTINUE_ON_ERROR"`
 	API             API               `json:"api,omitempty"             yaml:"api,omitempty"`
 	Features        Features          `json:"features,omitempty"        yaml:"features,omitempty"`
+	// CustomHeaders allows specifying custom HTTP headers for requests.
+	CustomHeaders map[string]string `json:"customHeaders,omitempty" yaml:"customHeaders,omitempty" documentation:"Custom HTTP headers for requests" env:"CUSTOM_HEADERS"`
 }
 
 // API configuration.

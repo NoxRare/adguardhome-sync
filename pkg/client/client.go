@@ -78,6 +78,11 @@ func New(config types.AdGuardInstance) (Client, error) {
 		cl.SetRedirectPolicy(resty.NoRedirectPolicy())
 	}
 
+	// Add custom headers if provided in the configuration
+	for key, value := range config.CustomHeaders {
+		cl.SetHeader(key, value)
+	}
+
 	return &client{
 		host:   config.Host,
 		client: cl,

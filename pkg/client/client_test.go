@@ -372,6 +372,36 @@ var _ = Describe("Client", func() {
 			})
 		})
 	})
+
+	Context("Custom Headers", func() {
+		It("should include custom headers in requests", func() {
+			customHeaders := map[string]string{
+				"CF-Access-Client-Id":     "test-client-id",
+				"CF-Access-Client-Secret": "test-client-secret",
+			}
+
+			inst := types.AdGuardInstance{
+				URL:          "https://foo.bar:3000",
+				CustomHeaders: customHeaders,
+			}
+			err := inst.Init()
+			Ω(err).ShouldNot(HaveOccurred())
+
+			cl, _ := client.New(inst)
+
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				for key, value := range customHeaders {
+					Ω(r.Header.Get(key)).Should(Equal(value))
+				}
+				w.WriteHeader(http.StatusOK)
+			}))
+			defer ts.Close()
+
+			cl.(*client.client).client.SetBaseURL(ts.URL)
+			_, err = cl.Status()
+			Ω(err).ShouldNot(HaveOccurred())
+		})
+	})
 })
 
 func ClientGet(file, path string) (*httptest.Server, client.Client) {

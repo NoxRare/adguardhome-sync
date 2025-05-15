@@ -358,3 +358,24 @@ It can be changed to `json` by setting the environment variable: `LOG_FORMAT=jso
 
 - [Como replicar la configuración de tu servidor DNS Adguard automáticamente - Tu servidor Part #12](https://www.youtube.com/watch?v=1LPeu_JG064) (
   Spanish) by [Jonatan Castro](https://github.com/jcastro)
+
+## Custom Headers
+
+You can specify custom HTTP headers for requests to the AdGuardHome instances. This is useful for scenarios like Cloudflare Zero Trust Access Protection.
+
+### Configuration
+
+Add the `customHeaders` field to your configuration file or set it via environment variables. For example:
+
+```yaml
+customHeaders:
+  CF-Access-Client-Id: <CLIENT_ID>
+  CF-Access-Client-Secret: <CLIENT_SECRET>
+```
+
+Or set them as environment variables:
+
+```bash
+export CUSTOM_HEADERS_CF-Access-Client-Id=<CLIENT_ID>
+export CUSTOM_HEADERS_CF-Access-Client-Secret=<CLIENT_SECRET>
+```

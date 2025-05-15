@@ -81,6 +81,10 @@ func Get(configFile string, flags Flags) (*AppConfig, error) {
 	if err := env.ParseWithOptions(replica, env.Options{Prefix: "REPLICA_"}); err != nil {
 		return nil, err
 	}
+	// Parse custom headers from environment variables
+	if err := env.ParseWithOptions(cfg.CustomHeaders, env.Options{Prefix: "CUSTOM_HEADERS_"}); err != nil {
+		return nil, err
+	}
 	// restore origin and replica
 	cfg.Origin = origin
 	cfg.Replica = replica
