@@ -181,6 +181,52 @@ services:
     restart: unless-stopped
 ```
 
+# Configure the sync API server, disabled if api port is 0
+api:
+  # Port, default 8080
+  port: 8080
+  # if username and password are defined, basic auth is applied to the sync API
+  username: username
+  password: password
+  # enable api dark mode
+  darkMode: true
+
+  # enable metrics on path '/metrics' (api port must be != 0)
+  # metrics:
+  #   enabled: true
+  #   scrapeInterval: 30s 
+  #   queryLogLimit: 10000
+
+  # enable tls for the api server
+  # tls:
+  #   # the directory of the provided tls certs
+  #   certDir: /path/to/certs
+  #   # the name of the cert file (default: tls.crt)
+  #   certName: foo.crt
+  #   # the name of the key file (default: tls.key)
+  #   keyName: bar.key
+
+# Custom headers for requests (optional)
+customHeaders:
+  CF-Access-Client-Id: <CLIENT_ID>
+  CF-Access-Client-Secret: <CLIENT_SECRET>
+
+# Configure sync features; by default all features are enabled.
+features:
+  generalSettings: true
+  queryLogConfig: true
+  statsConfig: true
+  clientSettings: true
+  services: true
+  filters: true
+  dhcp:
+    serverConfig: true
+    staticLeases: true
+  dns:
+    serverConfig: true
+    accessLists: true
+    rewrites: true
+
 ## Config via environment variables
 
 For Replicas replace `#` with the index number for the replica. E.g: `REPLICA#_URL` -> `REPLICA1_URL`
@@ -207,6 +253,7 @@ For Replicas replace `#` with the index number for the replica. E.g: `REPLICA#_U
 | REPLICA#_AUTO_SETUP (bool)           | bool   | Automatically setup the instance if it is not initialized |
 | REPLICA#_INTERFACE_NAME (string)     | string | Network interface name                                    |
 | REPLICA#_DHCP_SERVER_ENABLED (bool)  | bool   | Enable DHCP server                                        |
+| CUSTOM_HEADERS_<HEADER_NAME> (string)| string | Custom HTTP headers for requests                         |
 | CRON (string)                        | string | Cron expression for the sync interval                     |
 | RUN_ON_START (bool)                  | bool   | Run the sung on startup                                   |
 | PRINT_CONFIG_ONLY (bool)             | bool   | Print current config only and stop the application        |
@@ -304,6 +351,11 @@ api:
   #   # the name of the key file (default: tls.key)
   #   keyName: bar.key
 
+# Custom headers for requests (optional)
+customHeaders:
+  CF-Access-Client-Id: <CLIENT_ID>
+  CF-Access-Client-Secret: <CLIENT_SECRET>
+
 # Configure sync features; by default all features are enabled.
 features:
   generalSettings: true
@@ -358,24 +410,3 @@ It can be changed to `json` by setting the environment variable: `LOG_FORMAT=jso
 
 - [Como replicar la configuración de tu servidor DNS Adguard automáticamente - Tu servidor Part #12](https://www.youtube.com/watch?v=1LPeu_JG064) (
   Spanish) by [Jonatan Castro](https://github.com/jcastro)
-
-## Custom Headers
-
-You can specify custom HTTP headers for requests to the AdGuardHome instances. This is useful for scenarios like Cloudflare Zero Trust Access Protection.
-
-### Configuration
-
-Add the `customHeaders` field to your configuration file or set it via environment variables. For example:
-
-```yaml
-customHeaders:
-  CF-Access-Client-Id: <CLIENT_ID>
-  CF-Access-Client-Secret: <CLIENT_SECRET>
-```
-
-Or set them as environment variables:
-
-```bash
-export CUSTOM_HEADERS_CF-Access-Client-Id=<CLIENT_ID>
-export CUSTOM_HEADERS_CF-Access-Client-Secret=<CLIENT_SECRET>
-```
